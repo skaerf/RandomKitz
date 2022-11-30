@@ -1,0 +1,12 @@
+name: RandomKitz
+version: '${project.version}'
+main: xyz.skaerf.randomkitz.RandomKitz
+api-version: 1.18
+authors: [ skaerf ]
+description: Provides the player with a random kit on join and death
+website: skaerf.xyz
+commands:
+  getkit:
+    usage: /getkit
+  addkit:
+    usage: /addkit
