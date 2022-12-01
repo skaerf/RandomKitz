@@ -7,8 +7,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
+
 
 public class AddKitCommand implements CommandExecutor {
 
@@ -17,22 +17,29 @@ public class AddKitCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (player.hasPermission("randomkitz.addkit")) {
-                if (player.getInventory().isEmpty()) {
-                    player.sendMessage(ChatColor.RED+"Your inventory is empty! Please put the kit you want in your inventory for the command to function.");
+                if (args.length != 0) {
+                    String kitName = args[0];
+                    if (player.getInventory().isEmpty()) {
+                        player.sendMessage(ChatColor.RED+"Your inventory is empty! Please put the kit you want in your inventory for the command to function.");
+                    }
+                    else {
+                        Kit kit = new Kit(kitName.toLowerCase());
+                        kit.setHelmet(player.getInventory().getHelmet());
+                        kit.setChestplate(player.getInventory().getChestplate());
+                        kit.setLeggings(player.getInventory().getLeggings());
+                        kit.setBoots(player.getInventory().getBoots());
+                        kit.setOffHand(player.getInventory().getItemInOffHand());
+
+                        ItemStack[] mainInv = player.getInventory().getContents();
+                        kit.setMainInv(mainInv);
+                        System.out.println(Arrays.toString(kit.getMainInv()));
+                        kit.saveKit();
+                        RandomKitz.kits.put(kitName.toLowerCase(), kit);
+                        player.sendMessage(ChatColor.GREEN+"New kit saved!");
+                    }
                 }
                 else {
-                    Kit kit = new Kit();
-                    kit.setHelmet(player.getInventory().getHelmet());
-                    kit.setChestplate(player.getInventory().getChestplate());
-                    kit.setLeggings(player.getInventory().getLeggings());
-                    kit.setBoots(player.getInventory().getBoots());
-
-                    List<ItemStack> hotbar = new ArrayList<>();
-                    for (int i = 0; i <= 8; i++) {
-                        hotbar.add(player.getInventory().getItem(i));
-                    }
-                    kit.saveKit();
-                    player.sendMessage(ChatColor.GREEN+"New kit saved!");
+                    player.sendMessage(ChatColor.RED+"Please add what you want the name of the kit to be! /addkit <name>");
                 }
             }
             else {

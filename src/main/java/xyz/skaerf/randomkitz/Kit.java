@@ -2,7 +2,6 @@ package xyz.skaerf.randomkitz;
 
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
 
 public class Kit {
 
@@ -10,10 +9,12 @@ public class Kit {
     private ItemStack chestplate;
     private ItemStack leggings;
     private ItemStack boots;
-    private List<ItemStack> hotbar;
+    private ItemStack offhand;
+    private ItemStack[] mainInv;
+    private final String kitName;
 
-    public Kit() {
-
+    public Kit(String kitName) {
+        this.kitName = kitName;
     }
 
     void setHelmet(ItemStack helmet) {
@@ -32,8 +33,11 @@ public class Kit {
         this.boots = boots;
     }
 
-    void setHotbar(List<ItemStack> hotbar) {
-        this.hotbar = hotbar;
+    void setOffHand(ItemStack offhand) {
+        this.offhand = offhand;
+    }
+    void setMainInv(ItemStack[] mainInv) {
+        this.mainInv = mainInv;
     }
 
     ItemStack getHelmet() {
@@ -52,11 +56,19 @@ public class Kit {
         return boots;
     }
 
-    List<ItemStack> getHotbar() {
-        return hotbar;
+    ItemStack getOffHand() {
+        return offhand;
+    }
+
+    ItemStack[] getMainInv() {
+        return mainInv;
+    }
+
+    String getKitName() {
+        return this.kitName;
     }
 
     void saveKit() {
-
+        ConfigManager.createKitFile(this);
     }
 }
